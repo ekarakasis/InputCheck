@@ -92,6 +92,14 @@ sys.path.append('../../')
 from InputCheck import functools, np
 import inspect
 
+numberTypes = [int, float]
+stringTypes = [str]
+boolTypes   = [bool]
+objectTypes = [list, tuple, dict]
+noneTypes   = [type(None)]
+arrayType   = [np.ndarray]
+
+
 def get_default_args(func):
     signature = inspect.signature(func)
     return {
@@ -99,13 +107,6 @@ def get_default_args(func):
         for k, v in signature.parameters.items()
         if v.default is not inspect.Parameter.empty
     }
-
-numberTypes = [int, float]
-stringTypes = [str]
-boolTypes   = [bool]
-objectTypes = [list, tuple, dict]
-noneTypes   = [type(None)]
-arrayType   = [np.ndarray]
 
 
 def ordinal(num):
@@ -118,6 +119,11 @@ def ordinal(num):
     else:
         ord = {1 : 'st', 2 : 'nd', 3 : 'rd'}.get(num % 10, 'th')
         return '{0}{1}'.format(num, ord)
+
+
+def getArgumentsNames(func):
+    sig = inspect.signature(func)
+    return list(sig.parameters.keys()) # argument names (all names: vars and default values)
 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # TYPE CHECKS
@@ -426,7 +432,7 @@ def acceptedTypes(*accepted_arg_types, **args_dict):
         @functools.wraps(validate_function)
         def decorator_wrapper(*function_args, **function_args_dict):   
             function_args_default = get_default_args(validate_function)
-            argNms = inspect.getfullargspec(validate_function)[0] # argument names (all names: vars and default values)
+            argNms = getArgumentsNames(validate_function)
 
             if 'removeChecks' in function_args_dict:
                 if function_args_dict['removeChecks'] == True:
@@ -482,7 +488,7 @@ def acceptedValues(*accepted_arg_types, **args_dict):
         @functools.wraps(validate_function)
         def decorator_wrapper(*function_args, **function_args_dict):
             function_args_default = get_default_args(validate_function)
-            argNms = inspect.getfullargspec(validate_function)[0] # argument names (all names: vars and default values)
+            argNms = getArgumentsNames(validate_function)
 
             # =========== 1st WAY ===================================
             # sig = inspect.signature(validate_function)
