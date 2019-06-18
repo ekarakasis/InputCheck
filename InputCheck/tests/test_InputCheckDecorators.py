@@ -74,6 +74,13 @@ class Tests_acceptedTypes(unittest.TestCase):
         func3(1, input3=10.0)
         func3(input3=2.0, input1=1) 
 
+        func3_params = {
+            'input1': 2, 
+            'input2': 2.0, 
+            'input3': 3.0
+        } 
+        func3(**func3_params)
+
         with self.assertRaises(ValueError):
             func3()
         with self.assertRaises(TypeError):
@@ -222,6 +229,14 @@ class Tests_acceptedValues(unittest.TestCase):
         func3(2.0, input2=6.0, input3=10.0)
         func3(2.0, input3=10.0)
         func3(input3=2.0, input1=1)
+
+        func3_params = {
+            'input1': 2, 
+            'input2': 6.0, 
+            'input3': 10.0
+        } 
+        func3(**func3_params)
+
         with self.assertRaises(ValueError):
             func3()
         with self.assertRaises(ValueError):
