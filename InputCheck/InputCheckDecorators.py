@@ -92,6 +92,14 @@ sys.path.append('../../')
 from InputCheck import functools, np
 import inspect
 
+numberTypes = [int, float]
+stringTypes = [str]
+boolTypes   = [bool]
+objectTypes = [list, tuple, dict]
+noneTypes   = [type(None)]
+arrayType   = [np.ndarray]
+
+
 def get_default_args(func):
     signature = inspect.signature(func)
     return {
@@ -99,13 +107,6 @@ def get_default_args(func):
         for k, v in signature.parameters.items()
         if v.default is not inspect.Parameter.empty
     }
-
-numberTypes = [int, float]
-stringTypes = [str]
-boolTypes   = [bool]
-objectTypes = [list, tuple, dict]
-noneTypes   = [type(None)]
-arrayType   = [np.ndarray]
 
 
 def ordinal(num):
